@@ -3,7 +3,7 @@ cayo-base: &cayo-base
   cppFlags: []
   description: "A bootc server image with ZFS included"
   name: cayo
-  org: ublue-os
+  org: hanthor
   registry: ghcr.io
   repo: cayo
 kitten-base: &kitten-base
