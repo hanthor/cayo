@@ -15,9 +15,13 @@ RUN --mount=type=cache,dst=/var/cache \
 #include "build_files/01-common.sh"
 #ifdef CENTOS
 #include "build_files/centos/02-centos.sh"
-#else 
-#include "build_files/fedora/02-fedora.sh"
 #endif /* CENTOS */
+#ifdef KITTEN
+#include "build_files/centos/02-centos.sh"
+#endif /* KITTEN */
+#ifdef FEDORA 
+#include "build_files/fedora/02-fedora.sh"
+#endif /* FEDORA */
 ostree container commit
 RUNEOF
 
@@ -28,14 +32,15 @@ RUN --mount=type=cache,dst=/var/cache \
     --mount=type=tmpfs,dst=/tmp \
     bash <<'RUNEOF'
 #include "build_files/10-base-packages.sh"
-#ifdef CENTOS
+#ifdef KITTEN
 #include "build_files/centos/10-base-packages.sh"
 #else 
 #include "build_files/fedora/10-base-packages.sh"
-#endif /* CENTOS */
+#endif /* KITTEN */
 ostree container commit
 RUNEOF
 
+#ifdef CENTOS
 RUN --mount=type=cache,dst=/var/cache \
     --mount=type=tmpfs,dst=/var/log \
     --mount=type=tmpfs,dst=/var/tmp \
@@ -45,7 +50,21 @@ RUN --mount=type=cache,dst=/var/cache \
 #include "build_files/11-base-kernel-swap.sh"
 ostree container commit
 RUNEOF
+#endif /* CENTOS */
 
+#ifdef FEDORA
+RUN --mount=type=cache,dst=/var/cache \
+    --mount=type=tmpfs,dst=/var/log \
+    --mount=type=tmpfs,dst=/var/tmp \
+    --mount=type=tmpfs,dst=/tmp \
+    --mount=type=bind,from=akmods_zfs,source=/kernel-rpms,dst=/tmp/kernel-rpms \
+    bash <<'RUNEOF'
+#include "build_files/11-base-kernel-swap.sh"
+ostree container commit
+RUNEOF
+#endif /* FEDORA */
+
+#ifdef CENTOS
 RUN --mount=type=cache,dst=/var/cache \
     --mount=type=tmpfs,dst=/var/log \
     --mount=type=tmpfs,dst=/var/tmp \
@@ -55,6 +74,19 @@ RUN --mount=type=cache,dst=/var/cache \
 #include "build_files/12-base-zfs.sh"
 ostree container commit
 RUNEOF
+#endif /* CENTOS */
+
+#ifdef FEDORA
+RUN --mount=type=cache,dst=/var/cache \
+    --mount=type=tmpfs,dst=/var/log \
+    --mount=type=tmpfs,dst=/var/tmp \
+    --mount=type=tmpfs,dst=/tmp \
+    --mount=type=bind,from=akmods_zfs,src=/rpms,dst=/tmp/akmods-zfs-rpms \
+    bash <<'RUNEOF'
+#include "build_files/12-base-zfs.sh"
+ostree container commit
+RUNEOF
+#endif /* FEDORA */
 
 #ifdef CENTOS
 RUN --mount=type=cache,dst=/var/cache \

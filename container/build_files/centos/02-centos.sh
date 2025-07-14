@@ -21,6 +21,7 @@ subscription-manager-rhsm-certificates
 # /*
 # enable CRB, EPEL and other repos
 # */
+dnf install -y 'dnf-command(config-manager)'
 dnf config-manager --set-enabled crb
 dnf -y install epel-release
 dnf -y upgrade epel-release

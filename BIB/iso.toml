@@ -7,7 +7,7 @@ rootpw --lock
 bootloader --append="console=tty0 console=ttyS0,115200"
 
 %post --erroronfail
-bootc switch --mutate-in-place<SIGPOLICY> --transport registry <URL>
+bootc switch --mutate-in-place --transport registry ghcr.io/ublue-os/cayo:centos
 rm -f /var/lib/systemd/random-seed
 %end
 

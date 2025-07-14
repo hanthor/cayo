@@ -78,8 +78,8 @@ just build cayo
 ```
 Which will build the base Cayo image. Several of the recipes accept parameters. For `just build` the following parameters (in order):
 
-- "variant" (centos and fedora)
-- "version" (10 and 42, current centos and fedora versions)
+- "variant" (kitten and fedora)
+- "version" (10 and 42, current cekittenntos and fedora versions)
 
 At any time you can pass an empty string `""` to use the default value for that parameter:
 ```bash
@@ -88,9 +88,9 @@ just build fedora 42
 This will build a `cayo:fedora42` image from Fedora 42, which is the default of `just build`.
 
 ```bash
-just build centos 10
+just build kiteen 10
 ```
-Which will build a `cayo:centos10` image from CentOS 10.
+Which will build a `cayo:kiten` image from AlmaLinux Kitten 10.
 
 
 To see what the available recipes are and their parameters just run:
