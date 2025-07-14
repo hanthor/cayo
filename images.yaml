@@ -6,12 +6,22 @@ cayo-base: &cayo-base
   org: ublue-os
   registry: ghcr.io
   repo: cayo
+kitten-base: &kitten-base
+  cppFlags: ["KITTEN"]
+  upstream: kitten
 centos-base: &centos-base
   cppFlags: ["CENTOS"]
   upstream: centos
 fedora-base: &fedora-base
   cppFlags: ["FEDORA"]
   upstream: fedora
+kitten-10: &kitten-10
+  <<: *kitten-base
+  # TODO: Implement a Renovate Regex
+  source: quay.io/almalinuxorg/almalinux-bootc:10-kitten
+  zfs: ghcr.io/ublue-os/akmods-zfs:centos-stream10
+  version: 10
+  default: true
 centos-10: &centos-10
   <<: *centos-base
   # TODO: Implement a Renovate Regex
@@ -32,6 +42,10 @@ defaults:
   version: 42
 
 images:
+  cayo-kitten-10:
+    !!merge <<: 
+      - *kitten-10
+      - *cayo-base
   cayo-centos-10:
     !!merge <<: 
       - *centos-10

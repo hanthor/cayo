@@ -26,6 +26,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - variant: kitten
+            version: 10
           - variant: centos
             version: 10
           - variant: fedora
@@ -51,6 +53,7 @@ jobs:
           GITHUB_PR_NUMBER: ${{ github.event.pull_request.number }}
 
       - name: Secureboot Check
+        if: matrix.variant != 'kitten'  # AlmaLinux Kitten has secureboot already enabled
         run: just secureboot
 
       - name: Push and Sign Image
