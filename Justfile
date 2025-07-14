@@ -101,7 +101,7 @@ gen-tags $variant="" $version="":
     TIMESTAMP="$(date +%Y%m%d)"
     LIST_TAGS="$(mktemp)"
     while [[ ! -s "$LIST_TAGS" ]]; do
-       skopeo list-tags docker://$image_registry/$image_org/$image_name > "$LIST_TAGS"
+       skopeo list-tags docker://$image_registry/ublue-os/$image_name > "$LIST_TAGS"
     done
     if [[ $(cat "$LIST_TAGS" | jq "any(.Tags[]; contains(\"$image_tag-$TIMESTAMP\"))") == "true" ]]; then
        POINT="1"
